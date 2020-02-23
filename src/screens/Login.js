@@ -11,7 +11,6 @@ import {
 } from 'react-native-responsive-screen';
 import {Toast} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
-import {API_KEY} from 'react-native-dotenv';
 
 export default class Login extends Component {
   constructor() {
@@ -83,7 +82,6 @@ export default class Login extends Component {
             onPress={this._signIn}
             disabled={false}
           />
-          <Text>{API_KEY}</Text>
         </SafeAreaView>
       </>
     );
