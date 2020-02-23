@@ -1,4 +1,4 @@
-export const API_KEY = 'b2dc28e0584e48f99255a929e52c58fd';
+import {API_KEY} from 'react-native-dotenv';
 export const ROOT_URL = 'https://newsapi.org/v2';
 const withKey = url => `${ROOT_URL}${url}?apiKey=${API_KEY}`;
 
