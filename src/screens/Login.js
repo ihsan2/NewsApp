@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, SafeAreaView, Image} from 'react-native';
+import {StyleSheet, SafeAreaView, Image, BackHandler} from 'react-native';
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -17,10 +17,15 @@ export default class Login extends Component {
     super();
     this.state = {
       userInfo: [],
+      backCount: 0,
     };
   }
 
   componentDidMount() {
+    this.backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.handleBackPress,
+    );
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
       webClientId:
@@ -29,6 +34,15 @@ export default class Login extends Component {
       forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login.
     });
   }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
+  handleBackPress = () => {
+    BackHandler.exitApp();
+    return true;
+  };
 
   _signIn = async () => {
     try {

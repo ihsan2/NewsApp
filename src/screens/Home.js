@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  BackHandler,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -42,6 +43,10 @@ class Home extends Component {
   }
 
   componentDidMount = async () => {
+    this.backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.handleBackPress,
+    );
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
       webClientId:
@@ -54,6 +59,31 @@ class Home extends Component {
       this.setState({user});
     });
     this.getData();
+  };
+
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
+  handleBackPress = () => {
+    Alert.alert(
+      'Exit',
+      'Are you sure to exit app?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: async () => {
+            BackHandler.exitApp();
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+    return true;
   };
 
   handleRefresh = () => {
